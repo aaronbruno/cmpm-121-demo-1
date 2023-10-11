@@ -2,27 +2,37 @@ import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
 
-const gameName = "Aaron's Test Game";
+const gameName = "Muscle Clicker";
+const emojiButton = "💪";
+document.title = "Aaron's Game: " + gameName;
 
-const emojiButton = "🏋️";
-
-document.title = gameName;
-
+// Header
 const header = document.createElement("h1");
 header.innerHTML = gameName;
 
+// Main Button
 const button = document.createElement("button");
 button.textContent = emojiButton;
+button.style.fontSize = "60px";
+
+// Counter for clicking
+let counter: number = 0;
+const counterText = document.createElement("div");
+// counterText.style.fontSize = "25px";
+updateCounter(counterText, counter);
+
+// Clicking
+const click_increase: number = 1;
+button.addEventListener("click", () => {
+  counter += click_increase;
+  updateCounter(counterText, counter);
+});
+
+// Updates click amount on text
+function updateCounter(counterText: HTMLDivElement, counter: number) {
+  counterText.innerHTML = counter + " bicep curls completed";
+}
 
 app.append(header);
 app.append(button);
-
-// Webpage alert to show that button was clicked
-function handleClick() {
-  alert("Button clicked!");
-}
-
-// Listens if button is clicked, and if it is run function
-if (button) {
-  button.addEventListener("click", handleClick);
-}
+app.append(counterText);
