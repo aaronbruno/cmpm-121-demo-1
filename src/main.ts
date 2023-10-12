@@ -18,8 +18,8 @@ button.style.fontSize = "60px";
 // Counter for clicking
 let counter: number = 0;
 const counterText = document.createElement("div");
-// counterText.style.fontSize = "25px";
-updateCounter(counterText, counter);
+counterText.style.fontSize = "25px";
+// updateCounter(counterText, counter, incrementPerSecond);
 
 // Clicking
 const click_increase: number = 1;
@@ -33,6 +33,22 @@ function updateCounter(counterText: HTMLDivElement, counter: number) {
   counterText.innerHTML = counter + " bicep curls completed";
 }
 
+// # to increment per second
+const incrementPerSecond: number = 1;
+
+// Per second counter text
+const autoCounterText = document.createElement("div");
+autoCounterText.style.fontSize = "15px";
+autoCounterText.innerHTML = incrementPerSecond + " curls per second";
+
+// Increment by 1 each second
+setInterval(() => {
+  counter += click_increase;
+  updateCounter(counterText, counter);
+  console.log(counter + "bruh");
+}, 1000);
+
 app.append(header);
-app.append(button);
 app.append(counterText);
+app.append(button);
+app.append(autoCounterText);
