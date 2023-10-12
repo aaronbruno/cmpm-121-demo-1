@@ -16,21 +16,20 @@ button.textContent = emojiButton;
 button.style.fontSize = "60px";
 
 // Counter for clicking
-let counter: number = 0;
+let totalCount: number = 0;
 const counterText = document.createElement("div");
 counterText.style.fontSize = "25px";
-// updateCounter(counterText, counter, incrementPerSecond);
 
-// Clicking
-const click_increase: number = 1;
+// Click to increase
+const clickIncrease: number = 1;
 button.addEventListener("click", () => {
-  counter += click_increase;
-  updateCounter(counterText, counter);
+  updateCounter(counterText, clickIncrease);
 });
 
 // Updates click amount on text
-function updateCounter(counterText: HTMLDivElement, counter: number) {
-  counterText.innerHTML = counter + " bicep curls completed";
+function updateCounter(counterText: HTMLDivElement, count: number) {
+  totalCount = totalCount + count;
+  counterText.innerHTML = totalCount + " bicep curls completed";
 }
 
 // # to increment per second
@@ -41,12 +40,22 @@ const autoCounterText = document.createElement("div");
 autoCounterText.style.fontSize = "15px";
 autoCounterText.innerHTML = incrementPerSecond + " curls per second";
 
-// Increment by 1 each second
-setInterval(() => {
-  counter += click_increase;
-  updateCounter(counterText, counter);
-  console.log(counter + "bruh");
-}, 1000);
+autoCounter(incrementPerSecond);
+
+function autoCounter(cps: number) {
+  let previousTime = performance.now();
+  window.requestAnimationFrame(updateCounterPerFrame);
+
+  function updateCounterPerFrame() {
+    const update = 1000 / cps;
+    if (performance.now() - previousTime > update) {
+      updateCounter(counterText, 1);
+      previousTime = performance.now();
+    }
+    // console.log(previousTime);
+    window.requestAnimationFrame(updateCounterPerFrame);
+  }
+}
 
 app.append(header);
 app.append(counterText);
