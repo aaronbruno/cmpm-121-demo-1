@@ -21,9 +21,6 @@ app.append(gameDescription);
 const mainButton = document.createElement("button");
 mainButton.textContent = mainEmoji;
 mainButton.style.fontSize = "70px";
-// mainButton.style.position = "absolute";
-// mainButton.style.left = "20%";
-// mainButton.style.top = "20%";
 app.append(mainButton);
 
 // Counter for clicking
@@ -110,7 +107,6 @@ let previousTime = 0;
 window.requestAnimationFrame(autoCounter);
 
 // Functions --------------------------------------------------
-
 // On click increment by 1 unit
 function incrementTotalOnClick() {
   totalCount += 1;
@@ -175,8 +171,7 @@ function autoCounter(time: number) {
   const timePassed: number = time - previousTime;
   previousTime = time;
 
-  // Debugging help
-  // console.log(totalIncrement);
+  // console.log(totalIncrement); // debugging help
 
   updateTotals(timePassed);
   checkButtonDisabled(availableItems);
