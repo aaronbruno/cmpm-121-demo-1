@@ -7,7 +7,7 @@ const app: HTMLDivElement = document.querySelector("#app")!;
 const gameName = "Muscle Clicker";
 const mainEmoji = "💪";
 const upgradeEmoji1 = "🏋🏻‍♂️";
-const upgradeEmoji2 = "🎧";
+const upgradeEmoji2 = "🚴"; //🎧
 const upgradeEmoji3 = "🍳";
 document.title = "Aaron's Game: " + gameName;
 
@@ -60,7 +60,7 @@ upgradeName1.innerHTML = "Weightlifting (" + numberOfPurchases1 + ")";
 
 const upgradeName2 = document.createElement("div");
 upgradeName2.style.fontSize = "20px";
-upgradeName2.innerHTML = "Music Buff (" + numberOfPurchases2 + ")";
+upgradeName2.innerHTML = "Cardio/Leg Day (" + numberOfPurchases2 + ")";
 
 const upgradeName3 = document.createElement("div");
 upgradeName3.style.fontSize = "20px";
@@ -94,7 +94,7 @@ upgradeButton2.addEventListener("click", () => {
   updateAuto(autoCounterText, incrementPerSecond2);
   upgradeCost2 = upgradeCost2 * 1.15;
   numberOfPurchases2 += 1;
-  upgradeName2.innerHTML = "Music Buff (" + numberOfPurchases2 + ")";
+  upgradeName2.innerHTML = "Cardio/Leg Day (" + numberOfPurchases2 + ")";
   upgradeDescription2.innerHTML =
     "Cost: " + upgradeCost2.toFixed(2) + " | " + incrementPerSecond2 + " mmps";
 });
