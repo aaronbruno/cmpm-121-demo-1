@@ -135,7 +135,9 @@ function purchaseItem(itemToPurchase: Item) {
     itemToPurchase.amountOfPurchases
   })<br>Rate: ${
     itemToPurchase.incrementPerSecond
-  } | Cost: ${itemToPurchase.costToUpgrade.toFixed(2)}`;
+  } | Cost: ${itemToPurchase.costToUpgrade.toFixed(2)}<br>${
+    itemToPurchase.description
+  }`;
 }
 
 // Create the actual button with its name, amout of purchases, rate, and cost
