@@ -14,7 +14,7 @@ app.append(header);
 // Sub-header
 const gameDescription = document.createElement("h3");
 gameDescription.innerHTML =
-  "Rescue animals off the streets and from unsafe homes!";
+  "Rescue any and all animals from off the streets or from injuries!";
 app.append(gameDescription);
 
 // Main Button
@@ -46,6 +46,7 @@ interface Item {
   incrementPerSecond: number;
   amountOfPurchases: number;
   button: HTMLButtonElement;
+  description: string;
 }
 
 // Define the "Items"
@@ -56,13 +57,15 @@ const availableItems: Item[] = [
     incrementPerSecond: 0.1,
     amountOfPurchases: 0,
     button: document.createElement("button"),
+    description: "Not everyone likes cats but cats lives still matter",
   },
   {
-    name: "🐹 Hamster",
+    name: "🐰 Bunny",
     costToUpgrade: 100,
     incrementPerSecond: 2,
     amountOfPurchases: 0,
     button: document.createElement("button"),
+    description: "Little Timmy lost his bunny again",
   },
   {
     name: "🐰 Bunny",
@@ -70,6 +73,23 @@ const availableItems: Item[] = [
     incrementPerSecond: 50,
     amountOfPurchases: 0,
     button: document.createElement("button"),
+    description: "Bugs bunny...",
+  },
+  {
+    name: "🦁 Tiger",
+    costToUpgrade: 10000,
+    incrementPerSecond: -50,
+    amountOfPurchases: 0,
+    button: document.createElement("button"),
+    description: "Um, I guess we can die trying?",
+  },
+  {
+    name: "🦄 Unicorn",
+    costToUpgrade: 100000,
+    incrementPerSecond: 1000,
+    amountOfPurchases: 0,
+    button: document.createElement("button"),
+    description: "A unicorn?!",
   },
 ];
 
@@ -123,7 +143,8 @@ function createItem(items: Item[]) {
   for (let iterator: number = 0; iterator < items.length; iterator++) {
     items[
       iterator
-    ].button.innerHTML = `${items[iterator].name}<br>Rate: ${items[iterator].incrementPerSecond} | Cost: ${items[iterator].costToUpgrade}`;
+    ].button.innerHTML = `${items[iterator].name}<br>Rate: ${items[iterator].incrementPerSecond} | Cost: ${items[iterator].costToUpgrade}
+    <br>${items[iterator].description}`;
     items[iterator].button.disabled = true;
     app.append(items[iterator].button);
   }
