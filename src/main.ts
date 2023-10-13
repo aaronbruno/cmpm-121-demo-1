@@ -67,9 +67,9 @@ upgradeName3.style.fontSize = "20px";
 upgradeName3.innerHTML = "Protein/Bulking (" + numberOfPurchases3 + ")";
 
 // the cost of each upgrade
-const upgradeCost1: number = 10;
-const upgradeCost2: number = 100;
-const upgradeCost3: number = 1000;
+let upgradeCost1: number = 10;
+let upgradeCost2: number = 100;
+let upgradeCost3: number = 1000;
 
 // Click to increase
 const clickIncrease: number = 1;
@@ -82,22 +82,31 @@ mainButton.addEventListener("click", () => {
 upgradeButton1.addEventListener("click", () => {
   updateCounter(counterText, -upgradeCost1);
   updateAuto(autoCounterText, incrementPerSecond1);
+  upgradeCost1 = upgradeCost1 * 1.15;
   numberOfPurchases1 += 1;
   upgradeName1.innerHTML = "Weightlifting (" + numberOfPurchases1 + ")";
+  upgradeDescription1.innerHTML =
+    "Cost: " + upgradeCost1.toFixed(2) + " | " + incrementPerSecond1 + " mmps";
 });
 
 upgradeButton2.addEventListener("click", () => {
   updateCounter(counterText, -upgradeCost2);
   updateAuto(autoCounterText, incrementPerSecond2);
+  upgradeCost2 = upgradeCost2 * 1.15;
   numberOfPurchases2 += 1;
   upgradeName2.innerHTML = "Music Buff (" + numberOfPurchases2 + ")";
+  upgradeDescription2.innerHTML =
+    "Cost: " + upgradeCost2.toFixed(2) + " | " + incrementPerSecond2 + " mmps";
 });
 
 upgradeButton3.addEventListener("click", () => {
   updateCounter(counterText, -upgradeCost3);
   updateAuto(autoCounterText, incrementPerSecond3);
+  upgradeCost3 = upgradeCost3 * 1.15;
   numberOfPurchases3 += 1;
   upgradeName3.innerHTML = "Protein/Bulking (" + numberOfPurchases3 + ")";
+  upgradeDescription3.innerHTML =
+    "Cost: " + upgradeCost3.toFixed(2) + " | " + incrementPerSecond3 + " mmps";
 });
 
 // Updates click amount on text
@@ -147,8 +156,7 @@ function autoCounter() {
       updateCounter(counterText, totalIncrement);
       previousTime = performance.now();
     }
-    // console.log(previousTime);
-    console.log(numberOfPurchases1);
+    console.log(previousTime);
     window.requestAnimationFrame(updateCounterPerFrame);
     checkButton(upgradeButton1, upgradeCost1);
     checkButton(upgradeButton2, upgradeCost2);
