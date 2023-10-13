@@ -2,18 +2,20 @@ import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
 
-// Will probably change emojis and descriptions later
-// ... im running out of ideas with this one
-const gameName = "Muscle Clicker";
-const mainEmoji = "💪";
-const upgradeEmoji1 = "🏋🏻‍♂️";
-const upgradeEmoji2 = "🚴"; //🎧
-const upgradeEmoji3 = "🍳";
+const gameName = "Animal Rescue"; // changed theme from muscle clicker
+const mainEmoji = "🐶";
 document.title = "Aaron's Game: " + gameName;
 
 // Header
 const header = document.createElement("h1");
 header.innerHTML = gameName;
+app.append(header);
+
+// Sub-header
+const gameDescription = document.createElement("h3");
+gameDescription.innerHTML =
+  "Rescue animals off the streets and from unsafe homes!";
+app.append(gameDescription);
 
 // Main Button
 const mainButton = document.createElement("button");
@@ -22,169 +24,138 @@ mainButton.style.fontSize = "70px";
 // mainButton.style.position = "absolute";
 // mainButton.style.left = "20%";
 // mainButton.style.top = "20%";
-
-// Side Buttons for auto upgrades (for auto counting)
-const upgradeButton1 = document.createElement("button");
-upgradeButton1.textContent = upgradeEmoji1;
-upgradeButton1.style.fontSize = "30px";
-
-const upgradeButton2 = document.createElement("button");
-upgradeButton2.textContent = upgradeEmoji2;
-upgradeButton2.style.fontSize = "30px";
-
-const upgradeButton3 = document.createElement("button");
-upgradeButton3.textContent = upgradeEmoji3;
-upgradeButton3.style.fontSize = "30px";
+app.append(mainButton);
 
 // Counter for clicking
 let totalCount: number = 0;
-const counterText = document.createElement("div");
-counterText.style.fontSize = "25px";
-const text = " Muscle Mass Gained!";
-counterText.innerHTML = totalCount.toFixed(2) + text;
+const totalCountText = document.createElement("div");
+totalCountText.style.fontSize = "20px";
+totalCountText.innerHTML = `You have rescued ${totalCount.toFixed(0)} animals!`;
+app.append(totalCountText);
 
-// # to increment per second
-const incrementPerSecond1: number = 0.1;
-const incrementPerSecond2: number = 2.0;
-const incrementPerSecond3: number = 50.0;
-
-// Purchases number for each upgrade
-let numberOfPurchases1: number = 0;
-let numberOfPurchases2: number = 0;
-let numberOfPurchases3: number = 0;
-
-// Names for each upgrade
-const upgradeName1 = document.createElement("div");
-upgradeName1.style.fontSize = "20px";
-upgradeName1.innerHTML = "Weightlifting (" + numberOfPurchases1 + ")";
-
-const upgradeName2 = document.createElement("div");
-upgradeName2.style.fontSize = "20px";
-upgradeName2.innerHTML = "Cardio/Leg Day (" + numberOfPurchases2 + ")";
-
-const upgradeName3 = document.createElement("div");
-upgradeName3.style.fontSize = "20px";
-upgradeName3.innerHTML = "Protein/Bulking (" + numberOfPurchases3 + ")";
-
-// the cost of each upgrade
-let upgradeCost1: number = 10;
-let upgradeCost2: number = 100;
-let upgradeCost3: number = 1000;
-
-// Click to increase
-const clickIncrease: number = 1;
-mainButton.addEventListener("click", () => {
-  updateCounter(counterText, clickIncrease);
-  // updateCounter(counterText, totalIncrement);
-});
-
-// Click to buy upgrade
-upgradeButton1.addEventListener("click", () => {
-  updateCounter(counterText, -upgradeCost1);
-  updateAuto(autoCounterText, incrementPerSecond1);
-  upgradeCost1 = upgradeCost1 * 1.15;
-  numberOfPurchases1 += 1;
-  upgradeName1.innerHTML = "Weightlifting (" + numberOfPurchases1 + ")";
-  upgradeDescription1.innerHTML =
-    "Cost: " + upgradeCost1.toFixed(2) + " | " + incrementPerSecond1 + " mmps";
-});
-
-upgradeButton2.addEventListener("click", () => {
-  updateCounter(counterText, -upgradeCost2);
-  updateAuto(autoCounterText, incrementPerSecond2);
-  upgradeCost2 = upgradeCost2 * 1.15;
-  numberOfPurchases2 += 1;
-  upgradeName2.innerHTML = "Cardio/Leg Day (" + numberOfPurchases2 + ")";
-  upgradeDescription2.innerHTML =
-    "Cost: " + upgradeCost2.toFixed(2) + " | " + incrementPerSecond2 + " mmps";
-});
-
-upgradeButton3.addEventListener("click", () => {
-  updateCounter(counterText, -upgradeCost3);
-  updateAuto(autoCounterText, incrementPerSecond3);
-  upgradeCost3 = upgradeCost3 * 1.15;
-  numberOfPurchases3 += 1;
-  upgradeName3.innerHTML = "Protein/Bulking (" + numberOfPurchases3 + ")";
-  upgradeDescription3.innerHTML =
-    "Cost: " + upgradeCost3.toFixed(2) + " | " + incrementPerSecond3 + " mmps";
-});
-
-// Updates click amount on text
-function updateCounter(counterText: HTMLDivElement, count: number) {
-  totalCount += count;
-  counterText.innerHTML = totalCount.toFixed(2) + text;
-}
-
-const text2 = " muscle mass per second";
+// Increment per second
 let totalIncrement: number = 0;
-function updateAuto(autoText: HTMLDivElement, count: number) {
-  totalIncrement += count;
-  autoText.innerHTML = totalIncrement.toFixed(2) + text2;
+const totalIncrementText = document.createElement("div");
+totalIncrementText.innerHTML = `${totalIncrement.toFixed(2)} animals/second`;
+app.append(totalIncrementText);
+
+// Interface
+interface Item {
+  name: string;
+  costToUpgrade: number;
+  incrementPerSecond: number;
+  amountOfPurchases: number;
+  button: HTMLButtonElement;
 }
 
-// Per second counter text
-const autoCounterText = document.createElement("div");
-autoCounterText.style.fontSize = "15px";
-autoCounterText.innerHTML =
-  totalIncrement.toFixed(2) + " muscle mass per second";
+// Define the "Items"
+const availableItems: Item[] = [
+  {
+    name: "🐈 Cat",
+    costToUpgrade: 10,
+    incrementPerSecond: 0.1,
+    amountOfPurchases: 0,
+    button: document.createElement("button"),
+  },
+  {
+    name: "🐹 Hamster",
+    costToUpgrade: 100,
+    incrementPerSecond: 2,
+    amountOfPurchases: 0,
+    button: document.createElement("button"),
+  },
+  {
+    name: "🐰 Bunny",
+    costToUpgrade: 1000,
+    incrementPerSecond: 50,
+    amountOfPurchases: 0,
+    button: document.createElement("button"),
+  },
+];
 
-// Upgrade Descriptions
-const upgradeDescription1 = document.createElement("div");
-upgradeDescription1.style.fontSize = "15px";
-upgradeDescription1.innerHTML =
-  "Cost: " + upgradeCost1 + " | " + incrementPerSecond1 + " mmps";
+mainButton.addEventListener("click", () => {
+  incrementTotalOnClick();
+});
 
-const upgradeDescription2 = document.createElement("div");
-upgradeDescription2.style.fontSize = "15px";
-upgradeDescription2.innerHTML =
-  "Cost: " + upgradeCost2 + " | " + incrementPerSecond2 + " mmps";
+createItem(availableItems);
 
-const upgradeDescription3 = document.createElement("div");
-upgradeDescription3.style.fontSize = "15px";
-upgradeDescription3.innerHTML =
-  "Cost: " + upgradeCost3 + " | " + incrementPerSecond3 + " mmps";
+for (let iterator: number = 0; iterator < availableItems.length; iterator++) {
+  availableItems[iterator].button.addEventListener("click", () => {
+    purchaseItem(availableItems[iterator]);
+  });
+}
 
-autoCounter();
+// Auto incrementation using frames
+let previousTime = 0;
+window.requestAnimationFrame(autoCounter);
 
-function autoCounter() {
-  let previousTime = performance.now();
-  window.requestAnimationFrame(updateCounterPerFrame);
+// Functions --------------------------------------------------
 
-  function updateCounterPerFrame() {
-    const update = 1000 / 1;
-    if (performance.now() - previousTime > update) {
-      updateCounter(counterText, totalIncrement);
-      previousTime = performance.now();
+// On click increment by 1 unit
+function incrementTotalOnClick() {
+  totalCount += 1;
+  totalCountText.innerHTML = `You have rescued ${totalCount.toFixed(
+    0,
+  )} animals!`;
+}
+
+// Purchase an upgrade/item
+function purchaseItem(itemToPurchase: Item) {
+  totalCount -= itemToPurchase.costToUpgrade;
+  totalCountText.innerHTML = `You have rescued ${totalCount.toFixed(
+    0,
+  )} animals!`;
+  totalIncrement += itemToPurchase.incrementPerSecond;
+  totalIncrementText.innerHTML = `${totalIncrement.toFixed(2)} animals/second`;
+
+  itemToPurchase.costToUpgrade *= 1.15;
+  itemToPurchase.amountOfPurchases += 1;
+
+  itemToPurchase.button.innerHTML = `${itemToPurchase.name} (${
+    itemToPurchase.amountOfPurchases
+  })<br>Rate: ${
+    itemToPurchase.incrementPerSecond
+  } | Cost: ${itemToPurchase.costToUpgrade.toFixed(2)}`;
+}
+
+// Create the actual button with its name, amout of purchases, rate, and cost
+function createItem(items: Item[]) {
+  for (let iterator: number = 0; iterator < items.length; iterator++) {
+    items[
+      iterator
+    ].button.innerHTML = `${items[iterator].name}<br>Rate: ${items[iterator].incrementPerSecond} | Cost: ${items[iterator].costToUpgrade}`;
+    items[iterator].button.disabled = true;
+    app.append(items[iterator].button);
+  }
+}
+
+// Checks if every upgrade/button is able to be bought
+function checkButtonDisabled(items: Item[]) {
+  for (let iterator: number = 0; iterator < items.length; iterator++) {
+    if (totalCount >= items[iterator].costToUpgrade) {
+      items[iterator].button.disabled = false;
+    } else {
+      items[iterator].button.disabled = true;
     }
-    console.log(previousTime);
-    window.requestAnimationFrame(updateCounterPerFrame);
-    checkButton(upgradeButton1, upgradeCost1);
-    checkButton(upgradeButton2, upgradeCost2);
-    checkButton(upgradeButton3, upgradeCost3);
   }
 }
 
-function checkButton(buttonToCheck: HTMLButtonElement, unitsNeeded: number) {
-  if (totalCount >= unitsNeeded) {
-    buttonToCheck.disabled = false;
-  } else {
-    buttonToCheck.disabled = true;
-  }
+// Updates the totalCount and totalCountText
+function updateTotals(timepassed: number) {
+  totalCount += totalIncrement * (timepassed / 1000);
+  totalCountText.innerHTML = `You have rescued ${totalCount.toFixed(
+    0,
+  )} animals!`;
 }
 
-app.append(header);
-app.append(counterText);
-app.append(mainButton);
-app.append(autoCounterText);
+function autoCounter(time: number) {
+  const timePassed: number = time - previousTime;
+  previousTime = time;
 
-app.append(upgradeName1);
-app.append(upgradeButton1);
-app.append(upgradeDescription1);
+  // Debugging help
+  // console.log(totalIncrement);
 
-app.append(upgradeName2);
-app.append(upgradeButton2);
-app.append(upgradeDescription2);
-
-app.append(upgradeName3);
-app.append(upgradeButton3);
-app.append(upgradeDescription3);
+  updateTotals(timePassed);
+  checkButtonDisabled(availableItems);
+  window.requestAnimationFrame(autoCounter);
+}
