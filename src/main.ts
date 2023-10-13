@@ -68,17 +68,17 @@ const availableItems: Item[] = [
     description: "Little Timmy lost his bunny again",
   },
   {
-    name: "🐰 Bunny",
+    name: "🦆 Duck",
     costToUpgrade: 1000,
     incrementPerSecond: 50,
     amountOfPurchases: 0,
     button: document.createElement("button"),
-    description: "Bugs bunny...",
+    description: "Donald Duck is homeless, lets help him",
   },
   {
     name: "🦁 Tiger",
     costToUpgrade: 10000,
-    incrementPerSecond: -50,
+    incrementPerSecond: 60,
     amountOfPurchases: 0,
     button: document.createElement("button"),
     description: "Um, I guess we can die trying?",
@@ -157,7 +157,7 @@ function checkButtonDisabled(items: Item[]) {
   for (let iterator: number = 0; iterator < items.length; iterator++) {
     if (totalCount >= items[iterator].costToUpgrade) {
       items[iterator].button.disabled = false;
-    } else {
+    } else if (totalCount < items[iterator].costToUpgrade) {
       items[iterator].button.disabled = true;
     }
   }
